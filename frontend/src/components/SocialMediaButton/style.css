@@ -1,0 +1,12 @@
+.social-media {
+    width: 40%;
+    padding: 15px;
+    border-radius: 7px;
+    font-size: 30px;
+
+    color: #fff;
+}
+
+.social-media:nth-child(even) {
+    margin-left: 10px;
+}

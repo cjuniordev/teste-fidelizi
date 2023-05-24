@@ -1,0 +1,36 @@
+.main-text {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.main-input {
+    border-radius: 7px;
+    border: solid 1px #ced4da;
+
+    color: #212529;
+
+    line-height: 24px;
+    font-size: 16px;
+    text-align: center;
+
+    width: 100%;
+    padding: 6px 12px;
+}
+
+.footer-button {
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    background-color: rgb(131, 75, 225);
+    color: #fff;
+
+    cursor: pointer;
+
+    padding: 6px 48px;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.footer-button:disabled {
+    background-color: #b6b6b6;
+}

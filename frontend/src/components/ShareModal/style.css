@@ -1,0 +1,15 @@
+.wrap-social-media {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.social-media-row {
+    display: flex;
+    justify-content: center;
+}
+
+.social-media-row:nth-child(2) {
+    margin-top: 10px;
+}

@@ -278,7 +278,7 @@
     line-height: 21px;
 }
 
-footer {
+.container > footer {
     display: flex;
     flex-direction: column;
     align-items: center;
