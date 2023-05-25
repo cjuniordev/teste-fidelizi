@@ -8,8 +8,8 @@ function App() {
      <div className="App">
          <Routes>
              <Route exact path="/" element={<Home />} />
-             <Route path="/ofertas" element={<Ofertas />} />
-             <Route path="/modal" element={<Modal />} />
+             <Route path="/ofertas/:slug/:id" element={<Ofertas />} />
+             <Route path="*" element={<>Página não encontrada</>}/>
          </Routes>
      </div>
   );

@@ -9,13 +9,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShare } from "@fortawesome/free-solid-svg-icons/faShare";
 import { faClock } from "@fortawesome/free-solid-svg-icons/faClock";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import OfferModal from "../../components/OfferModal";
 import ShareModal from "../../components/ShareModal";
+import offers from "../../api/offers";
+import { useParams, redirect } from "react-router-dom";
 
 function Ofertas() {
+    const [error, setError] = useState(false);
     const [showOfferModal, setShowOfferModal] = useState(false);
     const [showShareModal, setShowShareModal] = useState(false);
+    const [offer, setOffer] = useState({
+        deadline: undefined,
+        company: {
+            name: undefined,
+        }
+    });
+
+    const { slug, id } = useParams();
+
+    useEffect(() => {
+        let route = slug + '/' + id;
+        offers.get(route).then((response) => {
+            setOffer(response.data);
+        }).catch((error) => {
+            setError(true);
+        });
+    }, [])
 
     const handleGetOfferClick = () => {
         setShowOfferModal(true);
@@ -25,13 +45,17 @@ function Ofertas() {
         setShowShareModal(true);
     }
 
-    const blockScroll = () => {
-        document.body.style.overflow = "hidden";
+    const scroll = (hidden) => {
+        document.body.style.overflow = (hidden ? "hidden" : "auto");
     };
+
+    console.log(useParams())
+
+    scroll(showOfferModal || showShareModal);
 
     return (
         <>
-            { (showOfferModal || showShareModal) ? blockScroll() : null }
+
             { showOfferModal ? <OfferModal setShow={setShowOfferModal} /> : null }
             { showShareModal ? <ShareModal setShow={setShowShareModal} /> : null }
 
@@ -43,21 +67,21 @@ function Ofertas() {
                     <main className="card-content">
                         <span className="card-content-demonstration">Demonstração FideliZi</span>
                         <div className="offer">
-                            <h1>20% de desconto na compra de qualquer hamburguer</h1>
+                            <h1>{ offer?.title }</h1>
                             <div className="offer-content">
                                 <div className="offer-left">
                                     <img src={ ofertaTeste } alt="Oferta"/>
                                 </div>
                                 <div className="offer-right">
                                     <button className="offer-button" onClick={handleGetOfferClick}>
-                                        <span className="offer-button-active">
-                                            <FontAwesomeIcon icon={faCheck} size="lg"/>
-                                            Ativar Oferta
-                                        </span>
+                                <span className="offer-button-active">
+                                    <FontAwesomeIcon icon={faCheck} size="lg"/>
+                                    Ativar Oferta
+                                </span>
                                         <span className="offer-button-amount">
-                                            <span>100</span>
-                                            <span>disponíveis</span>
-                                        </span>
+                                    <span>{ offer?.amount }</span>
+                                    <span>disponíveis</span>
+                                </span>
                                     </button>
                                     <button className="button-share" onClick={handleShareClick}>
                                         <FontAwesomeIcon icon={faShare} />
@@ -66,14 +90,14 @@ function Ofertas() {
                                     <div className="offer-warning">
                                         <span>OFERTA DISPONÍVEL POR TEMPO LIMITADO! FALTAM:</span>
                                         <span>
-                                            <FontAwesomeIcon icon={faClock} />
-                                            172 dias restantes
-                                        </span>
+                                    <FontAwesomeIcon icon={faClock} />
+                                            { offer?.deadline } dias restantes
+                                </span>
                                     </div>
                                 </div>
                             </div>
                             <div className="offer-content-footer">
-                                20% de desconto na compra de qualquer hamburguer
+                                { offer?.title }
                             </div>
                         </div>
                         <div className="offer-tutorial">
@@ -84,8 +108,8 @@ function Ofertas() {
                                 <div className="step-content">
                                     <h2>ATIVE A OFERTA</h2>
                                     <span>
-                                        Clique em 'ativar oferta' e se identifique com o seu CPF. Dados pessoais podem ser solicitados.
-                                    </span>
+                                Clique em 'ativar oferta' e se identifique com o seu CPF. Dados pessoais podem ser solicitados.
+                            </span>
                                 </div>
                             </div>
                             <div className="offer-tutorial-step">
@@ -95,8 +119,8 @@ function Ofertas() {
                                 <div className="step-content">
                                     <h2>VISITE O ESTABELECIMENTO</h2>
                                     <span>
-                                        Fique atento ao prazo de validade após a ativação para não perder a oferta.
-                                    </span>
+                                Fique atento ao prazo de validade após a ativação para não perder a oferta.
+                            </span>
                                 </div>
                             </div>
                             <div className="offer-tutorial-step">
@@ -106,8 +130,8 @@ function Ofertas() {
                                 <div className="step-content">
                                     <h2>RESGATE A OFERTA</h2>
                                     <span>
-                                        Informe o seu CPF na área de resgate do Fidelizi e aproveite!
-                                    </span>
+                                Informe o seu CPF na área de resgate do Fidelizi e aproveite!
+                            </span>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +154,7 @@ function Ofertas() {
                 <footer>
                     <div className="card-footer">
                         <div className="card-footer-title">
-                            Siga Demonstração FideliZi
+                            Siga { offer?.company?.name }
                         </div>
                         <div className="social-media">
                             <a href="https://www.facebook.com/FideliZii" target="_blank" rel="noreferrer">
