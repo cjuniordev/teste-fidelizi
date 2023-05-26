@@ -23,19 +23,22 @@ function Ofertas() {
         deadline: undefined,
         company: {
             name: undefined,
-        }
+        },
+        amount: 0,
     });
 
     const { slug, id } = useParams();
 
-    useEffect(() => {
+    const mountOffer = () => {
         let route = slug + '/' + id;
         offers.get(route).then((response) => {
             setOffer(response.data);
         }).catch((error) => {
             setError(true);
         });
-    }, [])
+    }
+
+    useEffect(mountOffer, [])
 
     const handleGetOfferClick = () => {
         setShowOfferModal(true);
@@ -49,14 +52,12 @@ function Ofertas() {
         document.body.style.overflow = (hidden ? "hidden" : "auto");
     };
 
-    console.log(useParams())
-
     scroll(showOfferModal || showShareModal);
 
     return (
         <>
 
-            { showOfferModal ? <OfferModal setShow={setShowOfferModal} /> : null }
+            { showOfferModal ? <OfferModal setShow={setShowOfferModal} offer={offer} onClose={mountOffer}/> : null }
             { showShareModal ? <ShareModal setShow={setShowShareModal} /> : null }
 
             <div className="container center-items block-scroll">
@@ -79,7 +80,7 @@ function Ofertas() {
                                     Ativar Oferta
                                 </span>
                                         <span className="offer-button-amount">
-                                    <span>{ offer?.amount }</span>
+                                    <span>{ offer?.amount === null ? 0 : offer?.amount }</span>
                                     <span>disponíveis</span>
                                 </span>
                                     </button>

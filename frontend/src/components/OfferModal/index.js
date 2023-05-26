@@ -1,10 +1,59 @@
 import Modal from "../Modal/index";
-import {useState} from "react";
+import { useState } from "react";
+import clients from "../../api/clients";
 import './style.css';
+import Swal from 'sweetalert2';
 
-function OfferModal({ setShow }) {
+function OfferModal({ setShow, offer, onClose }) {
     const [cpf, setCpf] = useState('');
     const [cpfIsValid, setCpfIsValid] = useState(false);
+    
+    const getOffer = async () => {
+        let result = {};
+        await clients.getOffer(cpf.replace(/\D/g, ""), offer?.id).then((response) => {
+            result = {
+                title: 'Oferta Ativada!',
+                text: 'Uma mensagem foi enviada para o seu email com o link da oferta.',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            }
+        }).catch((error) => {
+            let message = error?.response?.data?.message;
+
+            if (message === null) {
+                message = `Esta oferta é destinada apenas para novos participantes do programa de fidelidade de ${offer?.company?.name}.`;
+            }
+
+            result = {
+                title: 'Oops!',
+                text: message,
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            }
+        });
+
+        await Swal.fire(result);
+        setShow(false);
+        onClose();
+    };
+
+    const handleCpfIsValid = (cpf) => {
+        let clearedCpf = cpf.replace(/\D/g, ""); // Remove all non-numeric characters
+
+        if (clearedCpf.length !== 11) {
+            setCpfIsValid(false)
+            return;
+        }
+
+        if (clearedCpf === "00000000000") {
+            setCpfIsValid(false)
+            return;
+        }
+
+        // TODO: Check if CPF is valid
+
+        setCpfIsValid(true)
+    };
 
     const formatCpf = (event) => {
         let formatted = event.target.value
@@ -14,52 +63,9 @@ function OfferModal({ setShow }) {
             .replace(/(\d{3})(\d{1,2})/, '$1-$2')
             .replace(/(-\d{2})\d+?$/, '$1')
 
-        setCpfIsValid(handleCpfIsValid(formatted));
+        handleCpfIsValid(formatted);
 
         setCpf(formatted);
-    };
-
-    const handleCpfIsValid = () => {
-
-        const getRest = () => {
-            rest = (sum * 10) % 11;
-        }
-
-        const clearRest = () => {
-            if (
-                (rest === 10) ||
-                (rest === 11)
-            ) rest = 0;
-        };
-
-        let copyCpf = cpf.replace(/\D/g, "");
-
-        if (copyCpf.length !== 11) return false;
-
-        if (copyCpf === "00000000000") return false;
-
-        let sum = 0;
-        let rest;
-
-        for (let i=1; i<=9; i++) {
-            sum = sum + parseInt(copyCpf.substring(i -1, i)) * (11 - i)
-        }
-
-        getRest();
-        clearRest();
-        console.log(copyCpf);
-        if (rest !== parseInt(copyCpf.substring(9, 10))) return false;
-
-        sum = 0;
-
-        for (let i = 1; i <= 10; i++) {
-            sum = sum + parseInt(copyCpf.substring(i -1, i)) * (12 - i)
-        }
-
-        getRest();
-        clearRest();
-
-        return rest === parseInt(copyCpf.substring(10, 11));
     };
 
     return (
@@ -74,7 +80,8 @@ function OfferModal({ setShow }) {
             footer={
                 <button
                     className="footer-button"
-                    disabled={handleCpfIsValid}
+                    disabled={!cpfIsValid}
+                    onClick={getOffer}
                 >
                     Continuar
                 </button>
