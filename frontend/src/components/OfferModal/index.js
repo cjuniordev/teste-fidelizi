@@ -9,6 +9,16 @@ function OfferModal({ setShow, offer, onClose }) {
     const [cpfIsValid, setCpfIsValid] = useState(false);
     
     const getOffer = async () => {
+        let loadingModal = Swal.fire({
+            title: 'Aguarde um momento!',
+            text: 'Estamos ativando sua oferta.',
+            showLoading: true,
+            backdrop: false,
+            height: '50vh',
+        })
+
+        Swal.showLoading();
+
         let result = {};
         await clients.getOffer(cpf.replace(/\D/g, ""), offer?.id).then((response) => {
             result = {
@@ -31,6 +41,9 @@ function OfferModal({ setShow, offer, onClose }) {
                 confirmButtonText: 'Ok'
             }
         });
+
+        Swal.hideLoading();
+        loadingModal.close();
 
         await Swal.fire(result);
         setShow(false);
