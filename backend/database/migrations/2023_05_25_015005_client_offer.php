@@ -11,7 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::create('client_offer', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('client_id');
+            $table->foreignId('offer_id');
+            $table->timestamps();
+        });
     }
 
     /**

@@ -14,7 +14,7 @@ class ActivateOfferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'offert_id' => ['required', 'integer', 'exists:offers,id']
+            'offer_id' => ['required', 'integer', 'exists:offers,id']
         ];
     }
 }

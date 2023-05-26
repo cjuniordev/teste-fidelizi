@@ -6,6 +6,7 @@ use App\Http\Requests\ActivateOfferRequest;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
+use App\Models\Offer;
 use Illuminate\Http\JsonResponse;
 
 class ClientController extends Controller
@@ -44,23 +45,33 @@ class ClientController extends Controller
 
     public function activateOffer(ActivateOfferRequest $request, string $cpf): JsonResponse
     {
+        // TODO: remove chars from cpf
+
         $attributes = $request->validated();
+        $offerId = $attributes['offer_id'];
 
         $client = $this->client->newQuery()
             ->where('cpf', $cpf)
             ->firstOrFail();
 
         $offer = $this->offer->newQuery()
-            ->where('id', $attributes['offert_id'])
+            ->where('id', $offerId)
             ->firstOrFail();
+
+        $clientHasOffer = $client->offers()->count();
+
+        if ($clientHasOffer > 0) {
+            return response()->json([
+                'message' => 'Você já tem essa oferta ativa!',
+            ], 403);
+        }
 
         $client
             ->offers()
             ->attach($offer);
 
-        $offer->update([
-            'amount' => $offer->amount - 1,
-        ]);
+        $offer->amount = $offer->amount - 1;
+        $offer->save();
 
         return response()->json($client);
     }
