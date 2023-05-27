@@ -93,6 +93,12 @@
     background-position: -100% 0;
 }
 
+.offer-button:disabled {
+    background-color: #025802;
+    background-image: none;
+    cursor: not-allowed;
+}
+
 .offer-button > span {
     color: #fff;
     font-weight: bold;

@@ -14,6 +14,7 @@ import OfferModal from "../../components/OfferModal";
 import ShareModal from "../../components/ShareModal";
 import offers from "../../api/offers";
 import { useParams, redirect } from "react-router-dom";
+import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 
 function Ofertas() {
     const [error, setError] = useState(false);
@@ -26,15 +27,28 @@ function Ofertas() {
         },
         amount: 0,
     });
+    const [timeOver, setTimeOver] = useState(false);
+    const [soldOut, setSoldOut] = useState(false);
 
     const { slug, id } = useParams();
 
     const mountOffer = () => {
         let route = slug + '/' + id;
         offers.get(route).then((response) => {
-            setOffer(response.data);
+            let data = response.data;
+
+            setOffer(data);
+
+            if (data.deadline <= 0) {
+                setTimeOver(true);
+            }
+
+            if (data.amount <= 0) {
+                setSoldOut(true);
+            }
+
         }).catch((error) => {
-            setError(true);
+            setError(true); // TODO: handle error
         });
     }
 
@@ -74,26 +88,35 @@ function Ofertas() {
                                     <img src={ ofertaTeste } alt="Oferta"/>
                                 </div>
                                 <div className="offer-right">
-                                    <button className="offer-button" onClick={handleGetOfferClick}>
-                                <span className="offer-button-active">
-                                    <FontAwesomeIcon icon={faCheck} size="lg"/>
-                                    Ativar Oferta
-                                </span>
+                                    <button
+                                        className="offer-button"
+                                        onClick={handleGetOfferClick}
+                                        disabled={ timeOver || soldOut }
+                                    >
+                                        <span className="offer-button-active">
+                                            <FontAwesomeIcon icon={(timeOver || soldOut) ? faX : faCheck} size="lg"/>
+                                            { timeOver || soldOut ? 'Oferta indisponível' : 'Ativar Oferta' }
+                                        </span>
                                         <span className="offer-button-amount">
-                                    <span>{ offer?.amount === null ? 0 : offer?.amount }</span>
-                                    <span>disponíveis</span>
-                                </span>
+                                            <span>{ offer?.amount === null ? 0 : offer?.amount }</span>
+                                            <span>disponíveis</span>
+                                        </span>
                                     </button>
                                     <button className="button-share" onClick={handleShareClick}>
                                         <FontAwesomeIcon icon={faShare} />
                                         <span>Compartilhar</span>
                                     </button>
                                     <div className="offer-warning">
-                                        <span>OFERTA DISPONÍVEL POR TEMPO LIMITADO! FALTAM:</span>
-                                        <span>
-                                    <FontAwesomeIcon icon={faClock} />
-                                            { offer?.deadline } dias restantes
-                                </span>
+                                        { timeOver ?
+                                            <span className="offer-warning-time">Oferta expirada</span> :
+                                            <>
+                                                <span>OFERTA DISPONÍVEL POR TEMPO LIMITADO! FALTAM:</span>
+                                                <span>
+                                                    <FontAwesomeIcon icon={faClock} />
+                                                    { offer?.deadline } dias restantes
+                                                </span>
+                                            </>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -109,8 +132,8 @@ function Ofertas() {
                                 <div className="step-content">
                                     <h2>ATIVE A OFERTA</h2>
                                     <span>
-                                Clique em 'ativar oferta' e se identifique com o seu CPF. Dados pessoais podem ser solicitados.
-                            </span>
+                                        Clique em 'ativar oferta' e se identifique com o seu CPF. Dados pessoais podem ser solicitados.
+                                    </span>
                                 </div>
                             </div>
                             <div className="offer-tutorial-step">
@@ -120,8 +143,8 @@ function Ofertas() {
                                 <div className="step-content">
                                     <h2>VISITE O ESTABELECIMENTO</h2>
                                     <span>
-                                Fique atento ao prazo de validade após a ativação para não perder a oferta.
-                            </span>
+                                        Fique atento ao prazo de validade após a ativação para não perder a oferta.
+                                    </span>
                                 </div>
                             </div>
                             <div className="offer-tutorial-step">
@@ -131,8 +154,8 @@ function Ofertas() {
                                 <div className="step-content">
                                     <h2>RESGATE A OFERTA</h2>
                                     <span>
-                                Informe o seu CPF na área de resgate do Fidelizi e aproveite!
-                            </span>
+                                        Informe o seu CPF na área de resgate do Fidelizi e aproveite!
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +171,6 @@ function Ofertas() {
                                 <li>Oferta poderá ser ativada apenas uma vez por CPF</li>
                                 <li>Válido somente aos finais de semana</li>
                             </ul>
-
                         </div>
                     </main>
                 </div>

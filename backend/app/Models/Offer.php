@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $amount
+ * @property int $deadline
+ * @property Carbon $validity
  */
 class Offer extends Model
 {
@@ -32,6 +34,13 @@ class Offer extends Model
 
     public function getDeadlineAttribute(): bool|int
     {
-        return Carbon::parse($this->validity)->diff(Carbon::now())->days;
+        $now = Carbon::now();
+        $validity = Carbon::parse($this->validity);
+
+        if ($now->greaterThanOrEqualTo($validity)) {
+            return 0;
+        }
+
+        return $validity->diff($now)->days;
     }
 }

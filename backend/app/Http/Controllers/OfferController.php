@@ -25,10 +25,17 @@ class OfferController extends Controller
 
     public function show(string $slug, int $id): JsonResponse
     {
+        /** @var Offer $offer */
         $offer = $this->offer->newQuery()
             ->where('slug', $slug)
             ->where('id', $id)
-            ->firstOrFail();
+            ->first();
+
+        if (! $offer) {
+            return response()->json([
+                'message' => 'Oferta não encontrada',
+            ], 404);
+        }
 
         $offer->load('company:id,name');
 
