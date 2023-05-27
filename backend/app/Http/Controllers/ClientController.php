@@ -7,6 +7,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\Offer;
+use App\Notifications\OfferActivatedNotification;
 use Illuminate\Http\JsonResponse;
 
 class ClientController extends Controller
@@ -45,18 +46,33 @@ class ClientController extends Controller
 
     public function activateOffer(ActivateOfferRequest $request, string $cpf): JsonResponse
     {
-        // TODO: remove chars from cpf
+        $cpf = only_numbers($cpf);
 
         $attributes = $request->validated();
         $offerId = $attributes['offer_id'];
 
+        /** @var Client $client */
         $client = $this->client->newQuery()
             ->where('cpf', $cpf)
-            ->firstOrFail();
+            ->first();
 
+        if (!$client) {
+            return response()->json([
+                'message' => 'Cliente não encontrado!',
+            ], 404);
+        }
+
+        /** @var Offer $offer */
         $offer = $this->offer->newQuery()
-            ->where('id', $offerId)
-            ->firstOrFail();
+            ->findOrFail($offerId);
+
+        $amount = $offer->amount;
+
+        if ($amount <= 0) {
+            return response()->json([
+                'message' => 'Não há mais ofertas disponíveis!',
+            ], 403);
+        }
 
         $clientHasOffer = $client->offers()->count();
 
@@ -70,8 +86,12 @@ class ClientController extends Controller
             ->offers()
             ->attach($offer);
 
-        $offer->amount = $offer->amount - 1;
+        $offer->amount = $amount - 1;
         $offer->save();
+
+        $client->user->notify(
+            new OfferActivatedNotification($offer)
+        );
 
         return response()->json($client);
     }
