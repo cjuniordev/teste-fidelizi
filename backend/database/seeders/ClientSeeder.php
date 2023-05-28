@@ -13,7 +13,10 @@ class ClientSeeder extends Seeder
         $offers = Offer::query()->inRandomOrder()->limit(3)->get();
 
         Client::factory()
-            ->hasAttached($offers)
+            ->hasAttached(
+                $offers,
+                [ 'created_at' => now() ]
+            )
             ->count(2)
             ->create();
 
