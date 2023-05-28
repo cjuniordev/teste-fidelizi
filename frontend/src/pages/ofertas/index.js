@@ -1,6 +1,5 @@
 import './styles.css';
 import logo from '../../assets/logo-fidelizi.png';
-import ofertaTeste from '../../assets/oferte-teste.png';
 import fidelizi from '../../assets/fidelizi.png';
 import fb from '../../assets/fb.svg';
 import insta from '../../assets/insta.svg';
@@ -114,7 +113,7 @@ function Ofertas() {
                                     <h1>{offer?.title}</h1>
                                     <div className="offer-content">
                                         <div className="offer-left">
-                                            <img src={ofertaTeste} alt="Oferta"/>
+                                            <img src={offer?.image} alt="Oferta"/>
                                         </div>
                                         <div className="offer-right">
                                             <button
