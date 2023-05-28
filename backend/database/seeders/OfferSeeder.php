@@ -14,9 +14,9 @@ class OfferSeeder extends Seeder
         Offer::factory()
             ->for(
                 Company::factory()
-                ->create([
-                    'name' => 'Demonstração FideliZi',
-                ])
+                    ->create([
+                        'name' => 'Demonstração FideliZi',
+                    ])
             )
             ->create([
                 'title' => '20% de desconto na compra de qualquer hamburguer',

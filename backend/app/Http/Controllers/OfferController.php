@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offer;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -11,7 +10,8 @@ class OfferController extends Controller
 {
     public function __construct(
         private readonly Offer $offer
-    ) {}
+    ) {
+    }
 
     public function index()
     {

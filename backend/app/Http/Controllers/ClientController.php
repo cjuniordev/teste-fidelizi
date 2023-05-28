@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\UserType;
 use App\Http\Requests\ActivateOfferRequest;
 use App\Http\Requests\ClientRequest;
-use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\Offer;
 use App\Models\User;
@@ -18,13 +17,13 @@ class ClientController extends Controller
         private readonly Client $client,
         private readonly Offer $offer,
         private readonly User $user,
-    ) {}
+    ) {
+    }
 
     public function index()
     {
         //
     }
-
 
     public function store(ClientRequest $request): JsonResponse
     {
@@ -45,7 +44,6 @@ class ClientController extends Controller
     {
         //
     }
-
 
     public function update(ClientRequest $request, Client $client)
     {
@@ -69,7 +67,7 @@ class ClientController extends Controller
             ->where('cpf', $cpf)
             ->first();
 
-        if (!$client) {
+        if (! $client) {
             return response()->json([
                 'message' => 'Cliente não encontrado!',
             ], 404);

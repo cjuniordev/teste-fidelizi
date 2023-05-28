@@ -16,7 +16,8 @@ class OfferActivatedNotification extends Notification implements ShouldQueue
 
     public function __construct(
         private readonly Offer $offer,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -32,12 +33,12 @@ class OfferActivatedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Você ativou uma oferta!')
-                    ->greeting('Olá, ' . $notifiable->name . '!')
-                    ->line('Você ativou uma oferta!')
-                    ->action('Ver Oferta', url('/'))
-                    ->line('Obrigado por usar nossa aplicação!')
-                    ->salutation('Atenciosamente, ' . config('app.name'));
+            ->subject('Você ativou uma oferta!')
+            ->greeting('Olá, '.$notifiable->name.'!')
+            ->line('Você ativou uma oferta!')
+            ->action('Ver Oferta', url('/'))
+            ->line('Obrigado por usar nossa aplicação!')
+            ->salutation('Atenciosamente, '.config('app.name'));
     }
 
     /**

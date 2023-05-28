@@ -9,11 +9,11 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-         User::factory()
-             ->admin()
-             ->create([
-                 'name' => 'admin',
-                 'email' => 'admin@email.com',
-                 ]);
+        User::factory()
+            ->admin()
+            ->create([
+                'name' => 'admin',
+                'email' => 'admin@email.com',
+            ]);
     }
 }

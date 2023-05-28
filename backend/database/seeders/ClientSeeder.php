@@ -15,7 +15,7 @@ class ClientSeeder extends Seeder
         Client::factory()
             ->hasAttached(
                 $offers,
-                [ 'created_at' => now() ]
+                ['created_at' => now()]
             )
             ->count(2)
             ->create();

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ClientRequest extends FormRequest
@@ -19,10 +18,10 @@ class ClientRequest extends FormRequest
                 'string',
                 'size:11',
             ],
-            'user' => ['array' ],
+            'user' => ['array'],
             'user.name' => [
                 'string',
-                'max:255'
+                'max:255',
             ],
             'user.email' => [
                 'string',
@@ -35,18 +34,18 @@ class ClientRequest extends FormRequest
         ];
 
         if ($this->isMethod('POST')) {
-            $postRules =  [
+            $postRules = [
                 'cpf' => [
                     'required',
                     'unique:clients,cpf',
                 ],
-                'user' => [ 'required' ],
-                'user.name' => [ 'required' ],
+                'user' => ['required'],
+                'user.name' => ['required'],
                 'user.email' => [
                     'required',
                     'unique:users,email',
                 ],
-                'user.password' => [ 'required' ],
+                'user.password' => ['required'],
             ];
 
             return array_merge_recursive($rules, $postRules);

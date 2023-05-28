@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $amount
  * @property int $deadline
  * @property Carbon $validity
+ *
  * @method Builder active()
  */
 class Offer extends Model
