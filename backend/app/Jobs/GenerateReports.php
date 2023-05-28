@@ -44,6 +44,7 @@ class GenerateReports implements ShouldQueue
             ])
             ->leftJoin('client_offer', 'client_offer.offer_id', '=', 'offers.id')
             ->groupBy('offers.id')
+            ->active()
             ->get()
             ->toArray();
 

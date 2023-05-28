@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $amount
  * @property int $deadline
  * @property Carbon $validity
+ * @method Builder active()
  */
 class Offer extends Model
 {
@@ -42,5 +44,12 @@ class Offer extends Model
         }
 
         return $validity->diff($now)->days;
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query
+            ->where('amount', '>', 0)
+            ->where('validity', '>=', Carbon::now());
     }
 }
