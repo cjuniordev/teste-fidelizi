@@ -50,13 +50,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected static function booted(): void
-    {
-        static::creating(function (User $user) {
-            $user->password = Hash::make($user->password);
-        });
-    }
-
     public function client(): HasOne
     {
         return $this->hasOne(Client::class);
