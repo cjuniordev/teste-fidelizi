@@ -1,0 +1,147 @@
+.main-text {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.text-description {
+    color: #212529;
+    font-size: 12px;
+    margin-bottom: 16px;
+}
+
+.text-purple {
+    color: #5c20c0;
+}
+
+.company:hover {
+    color: #5c20c0 !important;
+    font-weight: 700;
+}
+
+.form {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid #e5e6e7;
+    padding: 12px 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.form-group h5 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #180133;
+    margin-bottom: 24px;
+    text-align: start;
+}
+
+.inputs {
+    width: 100%;
+}
+
+.input-group {
+    width: 100%;
+    margin-bottom: 12px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #212529;
+    line-height: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+
+    -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.required {
+    color: #b3b3b3;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    max-width: 185px;
+    margin-bottom: 8px;
+}
+
+.footer-button > svg {
+    margin-left: 5px;
+}
+
+.policies {
+    color: #212529;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    margin-top: 0;
+    text-align: center
+}
+
+.policies > span {
+    color: #5c20c0;
+    font-weight: 700;
+}
+
+.policies > span:hover {
+    cursor: pointer;
+}
+
+.error {
+    color: #f02222;
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+@media (max-width: 450px) {
+    .modal {
+        top: 5%;
+        left: 0;
+    }
+}

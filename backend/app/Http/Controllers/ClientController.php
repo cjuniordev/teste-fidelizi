@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserType;
 use App\Http\Requests\ActivateOfferRequest;
-use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\ClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\Offer;
+use App\Models\User;
 use App\Notifications\OfferActivatedNotification;
 use Illuminate\Http\JsonResponse;
 
@@ -15,6 +17,7 @@ class ClientController extends Controller
     public function __construct(
         private readonly Client $client,
         private readonly Offer $offer,
+        private readonly User $user,
     ) {}
 
     public function index()
@@ -23,9 +26,19 @@ class ClientController extends Controller
     }
 
 
-    public function store(StoreClientRequest $request)
+    public function store(ClientRequest $request): JsonResponse
     {
-        //
+        $attributes = $request->validated();
+        $userAttributes = $attributes['user'] ?? [];
+
+        $user = $this->user->create([
+            ...$userAttributes,
+            'type' => UserType::CLIENT,
+        ]);
+
+        $client = $user->client()->create($attributes);
+
+        return response()->json($client);
     }
 
     public function show(Client $client)
@@ -34,7 +47,7 @@ class ClientController extends Controller
     }
 
 
-    public function update(UpdateClientRequest $request, Client $client)
+    public function update(ClientRequest $request, Client $client)
     {
         //
     }

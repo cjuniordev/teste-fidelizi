@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/offers/{slug}/{id}', [OfferController::class, 'show']);
-Route::post('/clients/{cpf}', [ClientController::class, 'activateOffer']);
+Route::post('/clients/getOffer/{cpf}', [ClientController::class, 'activateOffer']);
+Route::post('/clients', [ClientController::class, 'store']);

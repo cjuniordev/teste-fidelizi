@@ -1,14 +1,14 @@
 .modal-container {
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(8px);
-    height: 100%;
+    min-height: 100%;
     width: 100%;
 
-    position: absolute;
+    position: fixed;
 }
 
 .modal {
-    position: relative;
+    position: absolute;
     z-index: 1000;
     width: 430px;
     background-color: #fff;

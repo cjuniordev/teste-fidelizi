@@ -15,11 +15,13 @@ import ShareModal from "../../components/ShareModal";
 import offers from "../../api/offers";
 import { useParams, redirect } from "react-router-dom";
 import {faX} from "@fortawesome/free-solid-svg-icons/faX";
+import CreateClientModal from "../../components/CreateClientModal";
 
 function Ofertas() {
     const [error, setError] = useState(false);
     const [showOfferModal, setShowOfferModal] = useState(false);
     const [showShareModal, setShowShareModal] = useState(false);
+    const [showCreateClient, setShowCreateClient] = useState(false);
     const [offer, setOffer] = useState({
         deadline: undefined,
         company: {
@@ -66,13 +68,21 @@ function Ofertas() {
         document.body.style.overflow = (hidden ? "hidden" : "auto");
     };
 
-    scroll(showOfferModal || showShareModal);
+    scroll(showOfferModal || showShareModal || showCreateClient);
 
     return (
         <>
 
-            { showOfferModal ? <OfferModal setShow={setShowOfferModal} offer={offer} onClose={mountOffer}/> : null }
+            { showOfferModal ?
+                <OfferModal
+                    setShow={setShowOfferModal}
+                    setShowCreateClient={setShowCreateClient}
+                    offer={offer}
+                    onClose={mountOffer}
+                /> : null
+            }
             { showShareModal ? <ShareModal setShow={setShowShareModal} /> : null }
+            { showCreateClient ? <CreateClientModal setShow={setShowCreateClient} companyName={offer.company.name} /> : null }
 
             <div className="container center-items block-scroll">
                 <div className="card">
