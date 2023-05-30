@@ -77,9 +77,9 @@ class ClientController extends Controller
         $offer = $this->offer->newQuery()
             ->findOrFail($offerId);
 
-        $amount = $offer->amount;
+        $availableAmount = $offer->available_amount;
 
-        if ($amount <= 0) {
+        if ($availableAmount <= 0) {
             return response()->json([
                 'message' => 'Não há mais ofertas disponíveis!',
             ], 403);
@@ -96,9 +96,6 @@ class ClientController extends Controller
         $client
             ->offers()
             ->attach($offer);
-
-        $offer->amount = $amount - 1;
-        $offer->save();
 
         $client->user->notify(
             new OfferActivatedNotification($offer)

@@ -23,6 +23,7 @@ function Ofertas() {
     const [showShareModal, setShowShareModal] = useState(false);
     const [showCreateClient, setShowCreateClient] = useState(false);
     const [offer, setOffer] = useState({
+        available_amount: 0,
         deadline: undefined,
         company: {
             name: undefined,
@@ -45,7 +46,7 @@ function Ofertas() {
                 setTimeOver(true);
             }
 
-            if (data.amount <= 0) {
+            if (data.available_amount <= 0) {
                 setSoldOut(true);
             }
 
@@ -126,7 +127,7 @@ function Ofertas() {
                                             {timeOver || soldOut ? 'Oferta indisponível' : 'Ativar Oferta'}
                                         </span>
                                                 <span className="offer-button-amount">
-                                            <span>{offer?.amount === null ? 0 : offer?.amount}</span>
+                                            <span>{offer?.amount === null ? 0 : offer?.available_amount}</span>
                                             <span>disponíveis</span>
                                         </span>
                                             </button>

@@ -42,6 +42,7 @@ class OfferController extends Controller
         return response()->json([
             ...$offer->toArray(),
             'deadline' => $offer->deadline,
+            'available_amount' => $offer->available_amount,
         ]);
     }
 
