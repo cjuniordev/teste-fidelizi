@@ -93,13 +93,13 @@ class ClientController extends Controller
             ], 403);
         }
 
-        $client
-            ->offers()
-            ->attach($offer);
+        \DB::transaction(function () use ($client, $offer) {
+            $client->offers()->attach($offer);
 
-        $client->user->notify(
-            new OfferActivatedNotification($offer)
-        );
+            $client->user->notify(
+                new OfferActivatedNotification($offer)
+            );
+        });
 
         return response()->json($client);
     }
