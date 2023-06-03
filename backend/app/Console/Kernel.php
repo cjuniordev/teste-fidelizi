@@ -13,11 +13,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-//        if (app()->environment('local')) {
-//            $schedule->job(new GenerateReports)->everyMinute();
-//        } else {
+        if (app()->environment('local')) {
+            $schedule->job(new GenerateReports)->everyMinute();
+        } else {
             $schedule->job(new GenerateReports)->hourly();
-//        }
+        }
     }
 
     /**
