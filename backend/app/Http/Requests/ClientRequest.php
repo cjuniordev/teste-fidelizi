@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ClientRequest extends FormRequest
@@ -17,6 +18,7 @@ class ClientRequest extends FormRequest
             'cpf' => [
                 'string',
                 'size:11',
+                new Cpf(),
             ],
             'user' => ['array'],
             'user.name' => [
