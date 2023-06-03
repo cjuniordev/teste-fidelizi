@@ -298,6 +298,11 @@
 
     background-color: #fff;
     box-shadow: 0 0 3px #fff;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-footer-title {
@@ -332,6 +337,7 @@ footer img {
     }
     .offer-left {
         width: 100%;
+        padding: 0 10px 5px 10px;
     }
     .offer-left img {
         height: auto;
@@ -339,6 +345,7 @@ footer img {
     }
     .offer-right {
         width: 100%;
+        padding: 0 10px;
     }
 }
 
@@ -355,6 +362,9 @@ footer img {
     .card-footer {
         width: 100%;
         border-radius: 0 0 10px 10px;
+    }
+    .offer-tutorial-step {
+        width: 70%;
     }
 }
 

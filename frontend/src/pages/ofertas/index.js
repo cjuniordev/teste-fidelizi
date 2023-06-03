@@ -16,7 +16,6 @@ import offers from "../../api/offers";
 import { useParams, redirect } from "react-router-dom";
 import {faX} from "@fortawesome/free-solid-svg-icons/faX";
 import CreateClientModal from "../../components/CreateClientModal";
-
 function Ofertas() {
     const [error, setError] = useState(false);
     const [showOfferModal, setShowOfferModal] = useState(false);
