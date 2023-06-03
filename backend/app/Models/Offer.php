@@ -53,16 +53,15 @@ class Offer extends Model
     public function getAvailableAmountAttribute()
     {
         $result = $this->newQuery()
-            ->selectRaw("
+            ->selectRaw('
                 offers.amount,
                 COUNT(client_offer.id) as count
-            ")
+            ')
             ->leftJoin('client_offer', 'offers.id', '=', 'client_offer.offer_id')
             ->where('offers.id', $this->id)
             ->groupBy('offers.amount')
             ->first()
             ->toArray();
-
 
         return $result['amount'] - $result['count'];
     }

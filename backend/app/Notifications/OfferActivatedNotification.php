@@ -32,7 +32,7 @@ class OfferActivatedNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $to = env('FRONTEND_URL') . '/ofertas/' . $this->offer->slug . '/' . $this->offer->id;
+        $to = env('FRONTEND_URL').'/ofertas/'.$this->offer->slug.'/'.$this->offer->id;
 
         return (new MailMessage)
             ->subject('Você ativou uma oferta!')
@@ -40,7 +40,7 @@ class OfferActivatedNotification extends Notification implements ShouldQueue
             ->line('Você ativou uma oferta!')
             ->action('Ver Oferta', $to)
             ->line('Obrigado por usar nossa aplicação!')
-            ->salutation('Atenciosamente, ' . config('app.name'));
+            ->salutation('Atenciosamente, '.config('app.name'));
     }
 
     /**

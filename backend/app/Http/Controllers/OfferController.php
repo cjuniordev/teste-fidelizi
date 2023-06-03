@@ -4,23 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Offer;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class OfferController extends Controller
 {
     public function __construct(
         private readonly Offer $offer
     ) {
-    }
-
-    public function index()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
     }
 
     public function show(string $slug, int $id): JsonResponse
@@ -44,15 +33,5 @@ class OfferController extends Controller
             'deadline' => $offer->deadline,
             'available_amount' => $offer->available_amount,
         ]);
-    }
-
-    public function update(Request $request, Offer $offer)
-    {
-        //
-    }
-
-    public function destroy(Offer $offer)
-    {
-        //
     }
 }

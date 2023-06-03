@@ -20,11 +20,6 @@ class ClientController extends Controller
     ) {
     }
 
-    public function index()
-    {
-        //
-    }
-
     public function store(ClientRequest $request): JsonResponse
     {
         $attributes = $request->validated();
@@ -38,21 +33,6 @@ class ClientController extends Controller
         $client = $user->client()->create($attributes);
 
         return response()->json($client);
-    }
-
-    public function show(Client $client)
-    {
-        //
-    }
-
-    public function update(ClientRequest $request, Client $client)
-    {
-        //
-    }
-
-    public function destroy(Client $client)
-    {
-        //
     }
 
     public function activateOffer(ActivateOfferRequest $request, string $cpf): JsonResponse

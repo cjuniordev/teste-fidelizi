@@ -16,7 +16,7 @@ class Cpf implements ValidationRule
         /**
          *  Código retirado do gist: https://gist.github.com/rafael-neri/ab3e58803a08cb4def059fce4e3c0e40
          */
-        $cpf = preg_replace( '/[^0-9]/is', '', $value);
+        $cpf = preg_replace('/[^0-9]/is', '', $value);
 
         if (strlen($cpf) != 11) {
             $fail('O CPF precisa ter 11 dígitos.');
