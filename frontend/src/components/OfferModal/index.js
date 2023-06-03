@@ -5,12 +5,26 @@ import './style.css';
 import Swal from 'sweetalert2';
 import CreateClientModal from "../CreateClientModal";
 import { mask_cpf } from "../../helpers/masks";
+import {validate_cpf} from "../../helpers/utils";
 
 function OfferModal({ setShow, offer, onClose, showCreateClient, setShowCreateClient }) {
     const [cpf, setCpf] = useState('');
     const [cpfIsValid, setCpfIsValid] = useState(false);
     
     const getOffer = async () => {
+
+        if(! cpfIsValid){
+            await Swal
+                .fire({
+                    title: 'CPF inválido!',
+                    text: 'Por favor, insira um CPF válido para continuar.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok',
+                });
+
+            return;
+        }
+
         let loadingModal = Swal.fire({
             title: 'Aguarde um momento!',
             text: 'Estamos ativando sua oferta.',
@@ -68,30 +82,24 @@ function OfferModal({ setShow, offer, onClose, showCreateClient, setShowCreateCl
         onClose();
     };
 
-    const handleCpfIsValid = (cpf) => {
-        let clearedCpf = cpf.replace(/\D/g, ""); // Remove all non-numeric characters
-
-        if (clearedCpf.length !== 11) {
-            setCpfIsValid(false)
-            return;
-        }
-
-        if (clearedCpf === "00000000000") {
-            setCpfIsValid(false)
-            return;
-        }
-
-        // TODO: Check if CPF is valid
-
-        setCpfIsValid(true)
-    };
-
     const handleCpf = (event) => {
         let formatted = mask_cpf(event.target.value);
-        handleCpfIsValid(formatted);
+
+        let cpfIsValid = validate_cpf(formatted);
+        setCpfIsValid(cpfIsValid);
 
         setCpf(formatted);
     };
+
+    const handleEnter = (event) => {
+        let enterPressed = event.keyCode === 13;
+
+        if(enterPressed){
+            event.preventDefault();
+
+            getOffer();
+        }
+    }
 
     return (
         <>
@@ -102,7 +110,14 @@ function OfferModal({ setShow, offer, onClose, showCreateClient, setShowCreateCl
                 main={
                     <>
                         <p className="main-text">Para ativar a oferta, digite seu CPF para identificação.</p>
-                        <input type="text" className="main-input" value={cpf} onChange={handleCpf} placeholder='___.___.___-__'/>
+                        <input
+                            type="text"
+                            className="main-input"
+                            value={cpf}
+                            onChange={handleCpf}
+                            onKeyUp={handleEnter}
+                            placeholder='___.___.___-__'
+                        />
                     </>
                 }
                 footer={

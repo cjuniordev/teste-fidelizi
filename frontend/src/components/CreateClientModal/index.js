@@ -6,10 +6,10 @@ import {faGreaterThan} from "@fortawesome/free-solid-svg-icons/faGreaterThan";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
 import {mask_cpf} from "../../helpers/masks";
-import {only_numbers} from "../../helpers/utils";
+import {only_numbers, validate_cpf} from "../../helpers/utils";
 
 function CreateClientModal({ setShow, companyName }) {
-    const [cpf, setCpf] = useState('');
+    const [cpfIsValid, setCpfIsValid] = useState(false);
     const [form, setForm] = useState({
         name: '',
         email: '',
@@ -27,6 +27,7 @@ function CreateClientModal({ setShow, companyName }) {
         let { name, value } = e.target;
 
         if (name === 'cpf') {
+            setCpfIsValid(validate_cpf(value));
             value = mask_cpf(value);
         }
 
@@ -38,6 +39,19 @@ function CreateClientModal({ setShow, companyName }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (! cpfIsValid) {
+            await Swal
+                .fire({
+                    title: 'CPF inválido!',
+                    text: 'Por favor, insira um CPF válido para continuar.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok',
+                });
+
+            return;
+        }
+
         let hasError = false;
 
         setErrors({
