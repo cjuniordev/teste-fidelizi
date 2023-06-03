@@ -74,7 +74,9 @@ class ClientController extends Controller
         }
 
         \DB::transaction(function () use ($client, $offer) {
-            $client->offers()->attach($offer);
+            $client->offers()->attach($offer, [
+                'created_at' => now(),
+            ]);
 
             $client->user->notify(
                 new OfferActivatedNotification($offer)
